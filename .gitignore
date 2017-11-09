@@ -48,3 +48,5 @@ debug/
 Network Trash Folder
 Temporary Items
 .apdisk
+NCDataMatch/App.config
+*.config
