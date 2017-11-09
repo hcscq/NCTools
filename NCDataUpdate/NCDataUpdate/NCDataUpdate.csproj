@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ADBA2B1A-787B-4935-A4C1-0276511A0582}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NCDataUpdate</RootNamespace>
+    <AssemblyName>NCDataUpdate</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>E:\桌面\UploadTest\packages\EntityFramework.6.2.0-beta1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\Logger.cs">
+      <Link>Common\Logger.cs</Link>
+    </Compile>
+    <Compile Include="ETLUpdateTaxRate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ETLUpdateTaxRate.Designer.cs">
+      <DependentUpon>ETLUpdateTaxRate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\Mapping\OUT_OTHER_CLMap.cs" />
+    <Compile Include="Models\Mapping\R_CLUSTERMap.cs" />
+    <Compile Include="Models\Mapping\R_CLUSTER_SLAVEMap.cs" />
+    <Compile Include="Models\Mapping\R_CONDITIONMap.cs" />
+    <Compile Include="Models\Mapping\R_DATABASEMap.cs" />
+    <Compile Include="Models\Mapping\R_DATABASE_ATTRIBUTEMap.cs" />
+    <Compile Include="Models\Mapping\R_DATABASE_CONTYPEMap.cs" />
+    <Compile Include="Models\Mapping\R_DATABASE_TYPEMap.cs" />
+    <Compile Include="Models\Mapping\R_DEPENDENCYMap.cs" />
+    <Compile Include="Models\Mapping\R_DIRECTORYMap.cs" />
+    <Compile Include="Models\Mapping\R_JOBENTRYMap.cs" />
+    <Compile Include="Models\Mapping\R_JOBENTRY_ATTRIBUTEMap.cs" />
+    <Compile Include="Models\Mapping\R_JOBENTRY_COPYMap.cs" />
+    <Compile Include="Models\Mapping\R_JOBENTRY_TYPEMap.cs" />
+    <Compile Include="Models\Mapping\R_JOBMap.cs" />
+    <Compile Include="Models\Mapping\R_JOB_ATTRIBUTEMap.cs" />
+    <Compile Include="Models\Mapping\R_JOB_HOPMap.cs" />
+    <Compile Include="Models\Mapping\R_JOB_LOCKMap.cs" />
+    <Compile Include="Models\Mapping\R_LOGLEVELMap.cs" />
+    <Compile Include="Models\Mapping\R_LOGMap.cs" />
+    <Compile Include="Models\Mapping\R_NOTEMap.cs" />
+    <Compile Include="Models\Mapping\R_PARTITIONMap.cs" />
+    <Compile Include="Models\Mapping\R_PARTITION_SCHEMAMap.cs" />
+    <Compile Include="Models\Mapping\R_REPOSITORY_LOGMap.cs" />
+    <Compile Include="Models\Mapping\R_SLAVEMap.cs" />
+    <Compile Include="Models\Mapping\R_STEPMap.cs" />
+    <Compile Include="Models\Mapping\R_STEP_ATTRIBUTEMap.cs" />
+    <Compile Include="Models\Mapping\R_STEP_TYPEMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANSFORMATIONMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_ATTRIBUTEMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_CLUSTERMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_HOPMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_LOCKMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_PARTITION_SCHEMAMap.cs" />
+    <Compile Include="Models\Mapping\R_TRANS_SLAVEMap.cs" />
+    <Compile Include="Models\Mapping\R_USERMap.cs" />
+    <Compile Include="Models\Mapping\R_VALUEMap.cs" />
+    <Compile Include="Models\Mapping\R_VERSIONMap.cs" />
+    <Compile Include="Models\Mapping\SO_MIDDLE_SALEORDERMap.cs" />
+    <Compile Include="Models\Mapping\SO_MIDDLE_SALEORDER_BMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_DISCARDOUT_BMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_GENERALOUT_BMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_INVCOUNT_BMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_MATERIALMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_RECBILLMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_TRANSFORM_BMap.cs" />
+    <Compile Include="Models\Mapping\DBASE_ITEM_MSG_ORGMap.cs" />
+    <Compile Include="Models\Mapping\UAPBD_MID_WHSTRAN_BMap.cs" />
+    <Compile Include="Models\OUT_OTHER_CL.cs" />
+    <Compile Include="Models\R_CLUSTER.cs" />
+    <Compile Include="Models\R_CLUSTER_SLAVE.cs" />
+    <Compile Include="Models\R_CONDITION.cs" />
+    <Compile Include="Models\R_DATABASE.cs" />
+    <Compile Include="Models\R_DATABASE_ATTRIBUTE.cs" />
+    <Compile Include="Models\R_DATABASE_CONTYPE.cs" />
+    <Compile Include="Models\R_DATABASE_TYPE.cs" />
+    <Compile Include="Models\R_DEPENDENCY.cs" />
+    <Compile Include="Models\R_DIRECTORY.cs" />
+    <Compile Include="Models\R_JOB.cs" />
+    <Compile Include="Models\R_JOBENTRY.cs" />
+    <Compile Include="Models\R_JOBENTRY_ATTRIBUTE.cs" />
+    <Compile Include="Models\R_JOBENTRY_COPY.cs" />
+    <Compile Include="Models\R_JOBENTRY_TYPE.cs" />
+    <Compile Include="Models\R_JOB_ATTRIBUTE.cs" />
+    <Compile Include="Models\R_JOB_HOP.cs" />
+    <Compile Include="Models\R_JOB_LOCK.cs" />
+    <Compile Include="Models\R_LOG.cs" />
+    <Compile Include="Models\R_LOGLEVEL.cs" />
+    <Compile Include="Models\R_NOTE.cs" />
+    <Compile Include="Models\R_PARTITION.cs" />
+    <Compile Include="Models\R_PARTITION_SCHEMA.cs" />
+    <Compile Include="Models\R_REPOSITORY_LOG.cs" />
+    <Compile Include="Models\R_SLAVE.cs" />
+    <Compile Include="Models\R_STEP.cs" />
+    <Compile Include="Models\R_STEP_ATTRIBUTE.cs" />
+    <Compile Include="Models\R_STEP_TYPE.cs" />
+    <Compile Include="Models\R_TRANSFORMATION.cs" />
+    <Compile Include="Models\R_TRANS_ATTRIBUTE.cs" />
+    <Compile Include="Models\R_TRANS_CLUSTER.cs" />
+    <Compile Include="Models\R_TRANS_HOP.cs" />
+    <Compile Include="Models\R_TRANS_LOCK.cs" />
+    <Compile Include="Models\R_TRANS_PARTITION_SCHEMA.cs" />
+    <Compile Include="Models\R_TRANS_SLAVE.cs" />
+    <Compile Include="Models\R_USER.cs" />
+    <Compile Include="Models\R_VALUE.cs" />
+    <Compile Include="Models\R_VERSION.cs" />
+    <Compile Include="Models\SO_MIDDLE_SALEORDER.cs" />
+    <Compile Include="Models\SO_MIDDLE_SALEORDER_B.cs" />
+    <Compile Include="Models\UAPBD_MID_DISCARDOUT_B.cs" />
+    <Compile Include="Models\UAPBD_MID_GENERALOUT_B.cs" />
+    <Compile Include="Models\UAPBD_MID_INVCOUNT_B.cs" />
+    <Compile Include="Models\UAPBD_MID_MATERIAL.cs" />
+    <Compile Include="Models\UAPBD_MID_RECBILL.cs" />
+    <Compile Include="Models\UAPBD_MID_TRANSFORM_B.cs" />
+    <Compile Include="Models\DBASE_ITEM_MSG_ORG.cs" />
+    <Compile Include="Models\UAPBD_MID_WHSTRAN_B.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ETLUpdateTaxRate.resx">
+      <DependentUpon>ETLUpdateTaxRate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
