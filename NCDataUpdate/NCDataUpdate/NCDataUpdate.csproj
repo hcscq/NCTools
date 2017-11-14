@@ -59,11 +59,11 @@
     <Compile Include="..\..\Common\Logger.cs">
       <Link>Common\Logger.cs</Link>
     </Compile>
-    <Compile Include="ETLUpdateTaxRate.cs">
+    <Compile Include="ETLUpdateTaxRateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ETLUpdateTaxRate.Designer.cs">
-      <DependentUpon>ETLUpdateTaxRate.cs</DependentUpon>
+    <Compile Include="ETLUpdateTaxRateForm.Designer.cs">
+      <DependentUpon>ETLUpdateTaxRateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Mapping\OUT_OTHER_CLMap.cs" />
@@ -164,8 +164,8 @@
     <Compile Include="Models\UAPBD_MID_WHSTRAN_B.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ETLUpdateTaxRate.resx">
-      <DependentUpon>ETLUpdateTaxRate.cs</DependentUpon>
+    <EmbeddedResource Include="ETLUpdateTaxRateForm.resx">
+      <DependentUpon>ETLUpdateTaxRateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

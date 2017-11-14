@@ -1,6 +1,6 @@
 ﻿namespace NCDataMatch
 {
-    partial class Form1
+    partial class NCDataMatchForm
     {
         /// <summary>
         /// Required designer variable.

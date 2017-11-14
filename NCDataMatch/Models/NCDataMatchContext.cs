@@ -13,10 +13,11 @@ namespace NCDataMatch.Models
         {
             Database.SetInitializer<NCDataMatchContext>(null);
         }
-
+        public static string ConnectionString = "";
         public NCDataMatchContext()
             : base("Name=NCDataMatchContext")
         {
+            Database.Connection.ConnectionString = ConnectionString;
         }
 
         public DbSet<BD_MATERIAL> BD_MATERIAL { get; set; }

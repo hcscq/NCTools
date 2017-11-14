@@ -12,7 +12,7 @@ using System.Threading;
 using NCTools.Common;
 namespace NCDataUpdate
 {
-    public partial class ETLUpdateTaxRate : Form
+    public partial class ETLUpdateTaxRateForm : Form
     {
         delegate void ControlSet();
 
@@ -28,16 +28,35 @@ namespace NCDataUpdate
                                     "SPACETIME_THREE_LEVEL_NAME",
                                     "UPDATE"
                                  };
+        private ColumnHeader[] columnHeader = {
+            new ColumnHeader() {Name= "ORG",Text="组织" },
+            new ColumnHeader() {Name= "GOODS_NO",Text="商品编码" },
+            new ColumnHeader() {Name= "GOODS_CODE",Text="商品编号" },
+            new ColumnHeader() {Name= "FULL_NAME",Text="商品名称" },
+            new ColumnHeader() {Name= "COMMON_NAME",Text="通用名" },
+            new ColumnHeader() {Name= "OUTPUT_TAX",Text="税率" },
+            new ColumnHeader() {Name= "SPACETIME_ONE_LEVEL_NAME",Text="一级分类名称" },
+            new ColumnHeader() {Name= "SPACETIME_TWO_LEVEL_NAME",Text="二级分类名称" },
+            new ColumnHeader() {Name= "SPACETIME_THREE_LEVEL_NAME",Text="三级分类名称" },
+            new ColumnHeader() {Name= "UPDATE",Text="更新" }
+                                             };
+        private List<ColumnHeader> columnHeaderList;
         private string[] editableColumns = { "OUTPUT_TAX","UPDATE" };
 
         private object oldVal = null;
-        public ETLUpdateTaxRate()
+        public ETLUpdateTaxRateForm(string connectionString = "")
         {
-            InitializeComponent(); 
+            Context.ConnectionString = connectionString;
+            InitializeComponent();
+            
+            groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            dgv_data.Dock = DockStyle.Fill;
             dgv_data.CellBeginEdit += Dgv_data_CellBeginEdit;
             dgv_data.CellEndEdit += Dgv_data_CellEndEdit;
             dgv_data.DataError += Dgv_data_DataError;
             dgv_data.DataBindingComplete += Dgv_data_DataBindingComplete;
+            columnHeaderList = columnHeader.ToList();
+            
             //dgv_data.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
 
@@ -46,6 +65,12 @@ namespace NCDataUpdate
 
             foreach (DataGridViewRow row in dgv_data.Rows) 
                 dgv_data.Rows[row.Index].HeaderCell.Value = row.Index.ToString();
+
+            foreach (DataGridViewColumn item in dgv_data.Columns)
+            {
+                if (item.Visible&& columnHeaderList.Exists(it=>it.Name.Trim()==item.Name.Trim()))
+                    dgv_data.Columns[item.Name].HeaderText = columnHeaderList.First(it => it.Name.Trim() == item.Name.Trim()).Text;
+            }
             tssl_resultRecodCount.Text = dgv_data.Rows.Count.ToString();
         }
 

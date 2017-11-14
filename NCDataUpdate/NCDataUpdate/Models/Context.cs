@@ -10,10 +10,11 @@ namespace NCDataUpdate.Models
         {
             Database.SetInitializer<Context>(null);
         }
-
+        public static string ConnectionString = "";
         public Context()
             : base("Name=Context")
         {
+            Database.Connection.ConnectionString = ConnectionString;
         }
 
         public DbSet<OUT_OTHER_CL> OUT_OTHER_CL { get; set; }

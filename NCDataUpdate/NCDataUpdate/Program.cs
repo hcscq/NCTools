@@ -16,7 +16,7 @@ namespace NCDataUpdate
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ETLUpdateTaxRate());
+            Application.Run(new ETLUpdateTaxRateForm());
         }
     }
 }

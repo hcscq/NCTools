@@ -20,6 +20,7 @@ namespace NCDataMatch.Common
             this.Size = size;
             dataGridView.Size = this.Size;
             this.Text = name;
+            dataGridView.Dock = DockStyle.Fill;
         }
     }
 }

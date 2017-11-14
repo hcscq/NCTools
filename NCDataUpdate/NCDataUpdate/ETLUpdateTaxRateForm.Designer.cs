@@ -1,6 +1,6 @@
 ﻿namespace NCDataUpdate
 {
-    partial class ETLUpdateTaxRate
+    partial class ETLUpdateTaxRateForm
     {
         /// <summary>
         /// Required designer variable.
@@ -61,6 +61,7 @@
             // 
             // dgv_data
             // 
+            this.dgv_data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_data.Location = new System.Drawing.Point(6, 20);
             this.dgv_data.Name = "dgv_data";

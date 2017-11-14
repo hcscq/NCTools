@@ -17,24 +17,21 @@ using System.Threading;
 using NCTools.Common;
 namespace NCDataMatch
 {
-    public partial class Form1 : Form
+    public partial class NCDataMatchForm : Form
     {
         private int MaxOnceUpdateCount = 50;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
         Random rand = new Random((int)DateTime.Now.Ticks);
-        public Form1()
+        public NCDataMatchForm(string connectionString="")
         {
+            NCDataMatchContext.ConnectionString = connectionString;
             InitializeComponent();
             openFileDialog.Filter = "*.xls|*.xlsx";
             openFileDialog.FileOk += OpenFileDialog_FileOk;
-            while (tc_excelSheet.TabPages.Count > 0)
-                tc_excelSheet.TabPages.RemoveAt(0);
-            //using (NCDataMatchContext dbContext =new NCDataMatchContext())
-            //{
-            //    var query = from q in dbContext.IC_SALEOUT_B select q;
-            //    var mm = query.Take(1).ToList();
-            //    GetExcelData("EXCEL 模板.xlsx");
-            //}
+            groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            groupBox2.Anchor= AnchorStyles.Bottom |  AnchorStyles.Right | AnchorStyles.Top;
+            tc_excelSheet.Dock = DockStyle.Fill;
+            tb_log.Dock = DockStyle.Fill;
         }
         private void UpdateData(List<ExcelModel> excelData)
         {
