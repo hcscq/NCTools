@@ -40,6 +40,7 @@
             this.rb_Excel2003 = new System.Windows.Forms.RadioButton();
             this.rb_Excel2007 = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cb_debug = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -64,7 +65,7 @@
             // 
             // btn_updateStart
             // 
-            this.btn_updateStart.Location = new System.Drawing.Point(674, 23);
+            this.btn_updateStart.Location = new System.Drawing.Point(674, 27);
             this.btn_updateStart.Name = "btn_updateStart";
             this.btn_updateStart.Size = new System.Drawing.Size(75, 23);
             this.btn_updateStart.TabIndex = 2;
@@ -146,7 +147,6 @@
             this.rb_Excel2007.TabStop = true;
             this.rb_Excel2007.Text = "Excel2007";
             this.rb_Excel2007.UseVisualStyleBackColor = true;
-
             // 
             // groupBox3
             // 
@@ -159,11 +159,22 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Excel格式";
             // 
-            // Form1
+            // cb_debug
+            // 
+            this.cb_debug.AutoSize = true;
+            this.cb_debug.Location = new System.Drawing.Point(607, 31);
+            this.cb_debug.Name = "cb_debug";
+            this.cb_debug.Size = new System.Drawing.Size(54, 16);
+            this.cb_debug.TabIndex = 12;
+            this.cb_debug.Text = "Debug";
+            this.cb_debug.UseVisualStyleBackColor = true;
+            // 
+            // NCDataMatchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1073, 664);
+            this.Controls.Add(this.cb_debug);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tb_orderId);
             this.Controls.Add(this.label1);
@@ -172,7 +183,7 @@
             this.Controls.Add(this.btn_updateStart);
             this.Controls.Add(this.btn_selFiles);
             this.Controls.Add(this.tb_fileName);
-            this.Name = "Form1";
+            this.Name = "NCDataMatchForm";
             this.Text = "NCDataMatch";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -198,6 +209,7 @@
         private System.Windows.Forms.RadioButton rb_Excel2003;
         private System.Windows.Forms.RadioButton rb_Excel2007;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox cb_debug;
     }
 }
 

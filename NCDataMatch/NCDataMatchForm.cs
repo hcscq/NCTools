@@ -20,6 +20,7 @@ namespace NCDataMatch
     public partial class NCDataMatchForm : Form
     {
         private int MaxOnceUpdateCount = 50;
+        private bool Debug = true;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
         Random rand = new Random((int)DateTime.Now.Ticks);
         public NCDataMatchForm(string connectionString="")
@@ -35,6 +36,7 @@ namespace NCDataMatch
         }
         private void UpdateData(List<ExcelModel> excelData)
         {
+            Debug = cb_debug.Checked;
             if (excelData == null || excelData.Count <= 0) return;
             string ID = DateTime.Now.ToString("yyMMddmmss") + (100 + rand.Next() % 899);
             try
@@ -50,6 +52,7 @@ namespace NCDataMatch
                         goodsNo = tmpData.Select(it => it.GoodsNo.Trim()).ToList();
                         orderId = tmpData.Select(it => it.OrderId.Trim()).ToList();
 
+                        WriteLog("Debug_开始-关联表BD_MATERIAL/IC_SALEOUT_B/IC_SALEOUT_E 查询 IC_SALEOUT_E.NSIGNNUM,BD_MATERIAL.Code等字段.", true);
                         var query = (from q in dbContext.BD_MATERIAL
                                      join p in dbContext.IC_SALEOUT_B on q.PK_MATERIAL equals p.CMATERIALOID
                                      join s in dbContext.IC_SALEOUT_E on p.CGENERALBID equals s.CGENERALBID
@@ -64,11 +67,18 @@ namespace NCDataMatch
                                          s.NSIGNNUM,
                                          p.NNUM
                                      }).AsNoTracking().ToList();
+                        WriteLog("Debug_结束-关联表BD_MATERIAL/IC_SALEOUT_B/IC_SALEOUT_E 查询 IC_SALEOUT_E.NSIGNNUM,BD_MATERIAL.Code等字段.", true);
+                        WriteLog("Debug_开始-内存EXCEL 数据匹配.", true);
+
+                        bool IsEmpty = true;
                         foreach (var it in tmpData)
                         {
                             if (!query.Exists(item => item.CODE.Trim() == it.GoodsNo.Trim() && item.VBDEF5.Trim() == it.OrderId.Trim()))
                                 WriteLog(it.OrderId + "/" + it.GoodsNo + "/" + "在NC中未找到匹配项.");
+                            else IsEmpty = false;
                         };
+                        if (IsEmpty) { WriteLog("第" + i * MaxOnceUpdateCount + "-" + ((i + 1) * MaxOnceUpdateCount >= excelData.Count ? excelData.Count : (i + 1) * MaxOnceUpdateCount) + "条数据全部未能匹配.已跳过."); continue; }
+
                         decimal  outVal;
                         var query1 = (from q in query
                                       join p in tmpData on new { OrderId = q.VBDEF5, GoodsNo = q.CODE } equals new { OrderId = p.OrderId, GoodsNo = p.GoodsNo }
@@ -84,6 +94,9 @@ namespace NCDataMatch
                         WriteLog("匹配NC编码.(第" + i * MaxOnceUpdateCount + "-" + ((i + 1) * MaxOnceUpdateCount >= excelData.Count ? excelData.Count : (i + 1) * MaxOnceUpdateCount) + "条数据)");
                         goodsNo = query1.Select(it => it.CMATERIALOID).ToList();
 
+                        WriteLog("Debug_结束-内存EXCEL 数据匹配.", true);
+
+                        WriteLog("Debug_开始-加载IC_SALEOUT_B表数据并在内存更新数据.", true);
                         var query2 = from q in dbContext.IC_SALEOUT_B
                                      where goodsNo.Contains(q.CMATERIALOID) && orderId.Contains(q.VBDEF5)
                                      select q;
@@ -101,7 +114,11 @@ namespace NCDataMatch
                                 locModel = null;
                             }
                         }
-                        dbContext.SaveChanges();
+                        WriteLog("Debug_结束-加载IC_SALEOUT_B表数据并在内存更新数据.", true);
+
+                        WriteLog("Debug_开始-提交IC_SALEOUT_B表数据到数据库.", true);
+                        int updateCount=dbContext.SaveChanges();
+                        WriteLog("Debug_结束-提交IC_SALEOUT_B表数据到数据库.("+ updateCount + ")", true);
                         WriteLog("第" + i * MaxOnceUpdateCount + "-" + ((i + 1) * MaxOnceUpdateCount >= excelData.Count ? excelData.Count : (i + 1) * MaxOnceUpdateCount) + "条数据,更新完成.");
                     }
                     WriteLog("更新结束.(单号:"+ID+")");
@@ -112,7 +129,7 @@ namespace NCDataMatch
                 WriteLog(e1.Message);
                 ID = "异常";
             }
-            this.Invoke(new ButtonSet(() => { btn_selFiles.Enabled = true; btn_updateStart.Enabled = true;tb_orderId.Text = ID; }));
+            this.Invoke(new ButtonSet(() => { btn_selFiles.Enabled = true; btn_updateStart.Enabled = true;tb_orderId.Text = ID;cb_debug.Enabled = true; }));
         }
         private List<ExcelModel> GetExcelData(string excelPath, ExcelHelper.ExcelVerion excelVer= ExcelHelper.ExcelVerion.Excel2007)
         {
@@ -190,20 +207,23 @@ namespace NCDataMatch
                 //dgv_excelData.DataSource = list;
                 Thread workThread = new Thread(new ThreadStart(()=>
                 {
-                    this.Invoke(new ButtonSet(() => { btn_selFiles.Enabled = false;btn_updateStart.Enabled = false;tb_orderId.Text = ""; }));
+                    this.Invoke(new ButtonSet(() => { btn_selFiles.Enabled = false;btn_updateStart.Enabled = false;tb_orderId.Text = ""; cb_debug.Enabled = false; }));
                     UpdateData(list);
                 }));
                 WriteLog("开始更新数据.请耐心等候...");
                 workThread.Start();
             }
         }
-        private void WriteLog(string log)
+        private void WriteLog(string log,bool debug=false)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(DateTime.Now.ToLongTimeString());
-            sb.Append(log).Append("\r\n");
-            tb_log.Text += sb.ToString();
-            Logger.WriteLog(sb.Remove(0,8).ToString(),true);
+            if (debug == Debug||!debug)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(DateTime.Now.ToLongTimeString());
+                sb.Append(log).Append("\r\n");
+                tb_log.Text += sb.ToString();
+                Logger.WriteLog(sb.Remove(0, 8).ToString(), true);
+            }
 
         }
         delegate void ButtonSet();
