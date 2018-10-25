@@ -49,6 +49,21 @@ namespace NCDataMatch
                     for (int i = 0; i <= excelData.Count / MaxOnceUpdateCount; i++)
                     {
                         tmpData = excelData.Skip(i * MaxOnceUpdateCount).Take(MaxOnceUpdateCount).ToList();
+                        //bool IsEmpty = true;
+                        //foreach (var  it in tmpData)
+                        //{
+                        //    if (string.IsNullOrWhiteSpace(it.OrderId) && string.IsNullOrWhiteSpace(it.GoodsNo)) continue;
+                        //    var t = (from q in dbContext.BD_MATERIAL
+                        //             join p in dbContext.IC_SALEOUT_B on q.PK_MATERIAL equals p.CMATERIALOID
+                        //             join s in dbContext.IC_SALEOUT_E on p.CGENERALBID equals s.CGENERALBID
+                        //             where p.DR == 0 && q.DR == 0 && it.OrderId.Trim().Equals(p.VBDEF5.Trim()) && it.GoodsNo.Trim().Equals(q.CODE.Trim())//==r.OrderId
+                        //             select new {u=1 });
+                        //    if (t.Count() <= 0)
+                        //        WriteLog(it.OrderId + "/" + it.GoodsNo + "/" + "在NC中未找到匹配项.");
+                        //    else IsEmpty = false;
+                        //}
+                        //if (IsEmpty) { WriteLog("第" + i * MaxOnceUpdateCount + "-" + ((i + 1) * MaxOnceUpdateCount >= excelData.Count ? excelData.Count : (i + 1) * MaxOnceUpdateCount) + "条数据全部未能匹配.已跳过."); continue; }
+
                         goodsNo = tmpData.Select(it => it.GoodsNo.Trim()).ToList();
                         orderId = tmpData.Select(it => it.OrderId.Trim()).ToList();
 
@@ -56,10 +71,11 @@ namespace NCDataMatch
                         var query = (from q in dbContext.BD_MATERIAL
                                      join p in dbContext.IC_SALEOUT_B on q.PK_MATERIAL equals p.CMATERIALOID
                                      join s in dbContext.IC_SALEOUT_E on p.CGENERALBID equals s.CGENERALBID
-                                     where p.DR == 0 && q.DR == 0 && orderId.Contains(p.VBDEF5) && goodsNo.Contains(q.CODE)//==r.OrderId
+                                     where /*p.DR == 0 &&*/ q.DR == 0 && orderId.Contains(p.VBDEF5) && goodsNo.Contains(q.CODE)//==r.OrderId
                                      select
                                      new
                                      {
+                                         isDel=(p.DR!=0),
                                          q.CODE,
                                          CMATERIALOID = p.CMATERIALOID,
                                          VBDEF5 = p.VBDEF5,
@@ -69,17 +85,21 @@ namespace NCDataMatch
                                      }).AsNoTracking().ToList();
                         WriteLog("Debug_结束-关联表BD_MATERIAL/IC_SALEOUT_B/IC_SALEOUT_E 查询 IC_SALEOUT_E.NSIGNNUM,BD_MATERIAL.Code等字段.", true);
                         WriteLog("Debug_开始-内存EXCEL 数据匹配.", true);
-
                         bool IsEmpty = true;
                         foreach (var it in tmpData)
                         {
                             if (!query.Exists(item => item.CODE.Trim() == it.GoodsNo.Trim() && item.VBDEF5.Trim() == it.OrderId.Trim()))
                                 WriteLog(it.OrderId + "/" + it.GoodsNo + "/" + "在NC中未找到匹配项.");
-                            else IsEmpty = false;
+                            else
+                            {
+                                if (query.Exists(item => item.CODE.Trim() == it.GoodsNo.Trim() && item.VBDEF5.Trim() == it.OrderId.Trim() && item.isDel))
+                                    WriteLog(it.OrderId + "/" + it.GoodsNo + "/" + "在NC中未找到匹配项.");
+                                else
+                                    IsEmpty = false;
+                            }
                         };
                         if (IsEmpty) { WriteLog("第" + i * MaxOnceUpdateCount + "-" + ((i + 1) * MaxOnceUpdateCount >= excelData.Count ? excelData.Count : (i + 1) * MaxOnceUpdateCount) + "条数据全部未能匹配.已跳过."); continue; }
-
-                        decimal  outVal;
+                        decimal outVal;
                         var query1 = (from q in query
                                       join p in tmpData on new { OrderId = q.VBDEF5, GoodsNo = q.CODE } equals new { OrderId = p.OrderId, GoodsNo = p.GoodsNo }
                                       select new
@@ -98,11 +118,11 @@ namespace NCDataMatch
 
                         WriteLog("Debug_开始-加载IC_SALEOUT_B表数据并在内存更新数据.", true);
                         var query2 = from q in dbContext.IC_SALEOUT_B
-                                     where goodsNo.Contains(q.CMATERIALOID) && orderId.Contains(q.VBDEF5)
+                                     where goodsNo.Contains(q.CMATERIALOID) && orderId.Contains(q.VBDEF5)&&q.DR==0
                                      select q;
                         IC_SALEOUT_B locModel = null;
-                       
 
+                        //int count = query2.Count();
                         foreach (var it in query2)
                         {
                             locModel = query1.Find(item => item.CMATERIALOID == it.CMATERIALOID && item.VBDEF5 == it.VBDEF5);

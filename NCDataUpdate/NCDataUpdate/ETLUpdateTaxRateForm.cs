@@ -220,6 +220,7 @@ namespace NCDataUpdate
                             }
                         }
                         int m=context.SaveChanges();
+                        WriteLog("更新总数："+m);
                         dgv_data.DataSource = query;
                     }
                     else MessageBox.Show("没与选取任何数据.","提示");

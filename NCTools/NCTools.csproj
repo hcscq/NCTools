@@ -36,6 +36,9 @@
     <ApplicationIcon>Wrench.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="cux_rpt_notdatas_Import">
+      <HintPath>..\cux_rpt_notdatas_Import\bin\Debug\cux_rpt_notdatas_Import.exe</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\bin\EntityFramework.dll</HintPath>

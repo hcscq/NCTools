@@ -17,6 +17,7 @@ namespace NCTools
     {
         private NCDataMatchForm DataMatchForm=null;
         private ETLUpdateTaxRateForm UpdateTaxRateForm=null;
+        private Cux_Rpt_Notdatas_Import CuxRptNotdatasImport = null;
         private Socket serverSocket;
         public NCToolsForm()
         {
@@ -24,8 +25,8 @@ namespace NCTools
             
             groupBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top|AnchorStyles.Bottom;
             btn_dataMatch.Anchor=  AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-            btn_updateTaxRate.Anchor= AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right ; 
-
+            btn_updateTaxRate.Anchor= AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right ;
+            btn_updateTaxRate.Visible = false;
         }
 
         private void btn_dataMatch_Click(object sender, EventArgs e)
@@ -65,6 +66,16 @@ namespace NCTools
         private void SocketAsyncEventArgs_Completed(object sender, SocketAsyncEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void btn_nodataImport_Click(object sender, EventArgs e)
+        {
+            if (CuxRptNotdatasImport == null || CuxRptNotdatasImport.IsDisposed)
+            {
+                CuxRptNotdatasImport = new Cux_Rpt_Notdatas_Import ("DATA SOURCE=172.16.1.108:1521/NCDATA;PERSIST SECURITY INFO=True;USER ID=NC65;PASSWORD=NC65");
+                CuxRptNotdatasImport.Show();
+            }
+            else CuxRptNotdatasImport.Focus();
         }
     }
 }
